@@ -88,7 +88,7 @@ export const Features: CollectionConfig<'features'> = {
         description: 'Lower numbers appear first within a category.',
       },
     },
-    ...slugField(),
+    slugField(),
   ],
   versions: {
     drafts: {
