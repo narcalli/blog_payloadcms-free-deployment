@@ -65,4 +65,59 @@ export const ConversationHeroBlock: React.FC<Props> = ({
         .ncx-hero .cta{margin-top:32px;display:flex;gap:12px;flex-wrap:wrap}
         .ncx-hero .btn{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:15px;font-weight:500;
           padding:10px 18px;border-radius:6px;text-decoration:none;display:inline-block}
-        .ncx-hero
+        .ncx-hero .solid{background:var(--ink);color:#fff}
+        .ncx-hero .ghost{border:1px solid var(--rule);color:var(--ink)}
+        .ncx-hero .thread{background:#fff;border:1px solid var(--rule);border-radius:14px;padding:24px 22px}
+        .ncx-hero .thread-head{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:13px;
+          color:var(--ink-soft);padding-bottom:15px;border-bottom:1px solid var(--rule);margin-bottom:18px}
+        .ncx-hero .msg{max-width:82%;padding:11px 15px;border-radius:14px;font-size:16px;line-height:1.5;
+          margin-bottom:11px;opacity:0;animation:ncxrise .5s ease forwards}
+        .ncx-hero .them{background:var(--paper);border-bottom-left-radius:4px}
+        .ncx-hero .us{background:var(--ink);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+        .ncx-hero .tag{display:inline-block;font-family:"Bricolage Grotesque",system-ui,sans-serif;
+          font-size:12px;color:var(--crimson);border:1px solid var(--crimson);border-radius:4px;
+          padding:2px 7px;opacity:0;animation:ncxrise .5s ease forwards}
+        @keyframes ncxrise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+        @media (prefers-reduced-motion:reduce){.ncx-hero .msg,.ncx-hero .tag{animation:none;opacity:1}}
+        @media(max-width:900px){.ncx-hero{grid-template-columns:1fr;gap:40px;padding:40px 20px}}
+      `}</style>
+
+      <div>
+        <h1>{headline}</h1>
+        {subhead ? <p className="sub">{subhead}</p> : null}
+        <div className="cta">
+          {primaryButtonLabel ? (
+            <a className="btn solid" href={primaryButtonLink || '#'}>
+              {primaryButtonLabel}
+            </a>
+          ) : null}
+          {secondaryButtonLabel ? (
+            <a className="btn ghost" href={secondaryButtonLink || '#'}>
+              {secondaryButtonLabel}
+            </a>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="thread">
+        {conversationLabel ? <div className="thread-head">{conversationLabel}</div> : null}
+        {lines.map((line, i) => {
+          if (line.kind === 'tag') {
+            return (
+              <span className="tag" key={i} style={{ animationDelay: `${messageIndex * 0.7}s` }}>
+                {line.text}
+              </span>
+            )
+          }
+          const delay = messageIndex * 0.7
+          messageIndex += 1
+          return (
+            <div className={`msg ${line.kind}`} key={i} style={{ animationDelay: `${delay}s` }}>
+              {line.text}
+            </div>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
