@@ -14,14 +14,23 @@ export const Logo = (props: Props) => {
   const priority = priorityFromProps || 'high'
 
   return (
-    /* eslint-disable @next/next/no-img-element */
-    <img
-      alt="NeuronCx"
-      loading={loading}
-      fetchPriority={priority}
-      decoding="async"
-      className={clsx('w-auto h-[34px]', className)}
-      src="/ncx-logo.png"
-    />
+    <span className={clsx('ncx-logo', className)}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&display=swap');
+        .ncx-logo{display:inline-flex;align-items:center;gap:10px;
+          font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;
+          font-size:21px;letter-spacing:-.025em;color:#16203A;line-height:1}
+        .ncx-logo img{width:auto;height:32px;display:block}
+      `}</style>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        alt=""
+        loading={loading}
+        fetchPriority={priority}
+        decoding="async"
+        src="/ncx-logo.png"
+      />
+      NeuronCx
+    </span>
   )
 }
