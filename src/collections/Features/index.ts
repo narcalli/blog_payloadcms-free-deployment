@@ -4,7 +4,7 @@ import { slugField } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 
-export const Features: CollectionConfig<'features'> = {
+export const Features: CollectionConfig = {
   slug: 'features',
   labels: {
     singular: 'Feature',
@@ -16,12 +16,7 @@ export const Features: CollectionConfig<'features'> = {
     read: authenticatedOrPublished,
     update: authenticated,
   },
-  defaultPopulate: {
-    title: true,
-    slug: true,
-    category: true,
-    summary: true,
-  },
+ 
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'order', 'updatedAt'],
