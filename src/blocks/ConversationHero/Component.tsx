@@ -57,7 +57,7 @@ export const ConversationHeroBlock: React.FC<Props> = ({
         @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Source+Serif+4:opsz,wght@8..60,400&display=swap');
         .ncx-hero{--ink:#16203A;--ink-soft:#4A5573;--paper:#F6F7F9;--crimson:#E0245E;--rule:#DFE3EA;
           display:grid;grid-template-columns:1.05fr .95fr;gap:72px;align-items:center;
-          max-width:1120px;margin:0 auto;padding:64px 32px 56px;
+          max-width:1120px;margin:0 auto;padding:24px 32px 56px;
           font-family:"Source Serif 4",Georgia,serif;color:var(--ink)}
         .ncx-hero h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:500;
           font-size:clamp(36px,4.6vw,58px);line-height:1.04;letter-spacing:-.035em;max-width:15ch;margin:0}
