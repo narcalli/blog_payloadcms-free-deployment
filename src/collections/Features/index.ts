@@ -1,10 +1,26 @@
 import type { CollectionConfig } from 'payload'
+import { slugField } from 'payload'
 
-export const Features: CollectionConfig = {
+import { authenticated } from '../../access/authenticated'
+import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+
+export const Features: CollectionConfig<'features'> = {
   slug: 'features',
   labels: {
     singular: 'Feature',
     plural: 'Features',
+  },
+  access: {
+    create: authenticated,
+    delete: authenticated,
+    read: authenticatedOrPublished,
+    update: authenticated,
+  },
+  defaultPopulate: {
+    title: true,
+    slug: true,
+    category: true,
+    summary: true,
   },
   admin: {
     useAsTitle: 'title',
@@ -12,19 +28,14 @@ export const Features: CollectionConfig = {
     description:
       'Short product capability descriptions. These appear in the sections on the home page and on the platform pages.',
   },
-  access: {
-    read: () => true,
-    create: ({ req: { user } }) => Boolean(user),
-    update: ({ req: { user } }) => Boolean(user),
-    delete: ({ req: { user } }) => Boolean(user),
-  },
   fields: [
     {
       name: 'title',
       type: 'text',
       required: true,
       admin: {
-        description: 'The name of the capability, as a reader would say it. Keep it under 60 characters.',
+        description:
+          'The name of the capability, as a reader would say it. Keep it under 60 characters.',
       },
     },
     {
@@ -39,7 +50,8 @@ export const Features: CollectionConfig = {
         { label: 'Integrations', value: 'integrations' },
       ],
       admin: {
-        description: 'Which part of the platform this belongs to. Decides where it appears on the site.',
+        description:
+          'Which part of the platform this belongs to. Decides where it appears on the site.',
       },
     },
     {
@@ -68,18 +80,6 @@ export const Features: CollectionConfig = {
       },
     },
     {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      index: true,
-      admin: {
-        position: 'sidebar',
-        description:
-          'The web address for this feature, in lowercase with hyphens. Example: whatsapp-appointment-booking. Changing this breaks existing links.',
-      },
-    },
-    {
       name: 'order',
       type: 'number',
       defaultValue: 0,
@@ -88,5 +88,15 @@ export const Features: CollectionConfig = {
         description: 'Lower numbers appear first within a category.',
       },
     },
+    ...slugField(),
   ],
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100,
+      },
+      schedulePublish: true,
+    },
+    maxPerDoc: 50,
+  },
 }
