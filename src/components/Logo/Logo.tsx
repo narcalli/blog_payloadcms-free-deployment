@@ -8,22 +8,20 @@ interface Props {
 }
 
 export const Logo = (props: Props) => {
-  const { loading: loadingFromProps, priority: priorityFromProps, className } = props
-
-  const loading = loadingFromProps || 'lazy'
-  const priority = priorityFromProps || 'low'
+  const { className } = props
 
   return (
-    /* eslint-disable @next/next/no-img-element */
-    <img
-      alt="Payload Logo"
-      width={193}
-      height={34}
-      loading={loading}
-      fetchPriority={priority}
-      decoding="async"
-      className={clsx('max-w-[9.375rem] w-full h-[34px]', className)}
-      src="https://raw.githubusercontent.com/payloadcms/payload/3.x/packages/ui/src/assets/payload-logo-light.svg"
-    />
+    <span className={clsx('ncx-logo', className)}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&display=swap');
+        .ncx-logo{display:inline-flex;align-items:center;gap:9px;
+          font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;
+          font-size:20px;letter-spacing:-.02em;color:#16203A;line-height:1}
+        .ncx-logo .pin{width:20px;height:20px;flex:0 0 20px;
+          border-radius:50% 50% 50% 2px;background:#E0245E;transform:rotate(-45deg)}
+      `}</style>
+      <span className="pin" aria-hidden="true" />
+      NeuronCx
+    </span>
   )
 }
