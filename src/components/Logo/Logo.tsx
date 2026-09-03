@@ -20,6 +20,7 @@ export const Logo = (props: Props) => {
       loading={loading}
       fetchPriority={priority}
       decoding="async"
+      style={{ filter: 'none' }}
       className={clsx('w-auto h-[34px]', className)}
       src="/ncx-logo.png"
     />
