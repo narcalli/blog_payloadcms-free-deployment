@@ -1,30 +1,92 @@
-import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import React from 'react'
-
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
-import { CMSLink } from '@/components/Link'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 import { Logo } from '@/components/Logo/Logo'
 
-export async function Footer() {
-  const footerData = await getCachedGlobal('footer', 1)()
+function hrefFor(link: any): string {
+  if (
+    link?.type === 'reference' &&
+    typeof link?.reference?.value === 'object' &&
+    link?.reference?.value?.slug
+  ) {
+    const prefix = link.reference.relationTo !== 'pages' ? `/${link.reference.relationTo}` : ''
+    return `${prefix}/${link.reference.value.slug}`
+  }
+  return link?.url || '#'
+}
 
-  const navItems = footerData?.navItems || []
+export async function Footer() {
+  const payload = await getPayload({ config: configPromise })
+  const footerData: any = await payload.findGlobal({ slug: 'footer', depth: 2 })
+
+  const columns = footerData?.columns || []
+  const legalItems = footerData?.legalItems || []
 
   return (
-    <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
-      <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
-        <Link className="flex items-center" href="/">
-          <Logo />
-        </Link>
+    <footer className="ncx-footer">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500&family=Source+Serif+4:opsz,wght@8..60,400&display=swap');
+        .ncx-footer{background:#16203A;color:#fff;margin-top:auto;
+          font-family:"Source Serif 4",Georgia,serif}
+        .ncx-footer .inner{max-width:1120px;margin:0 auto;padding:64px 32px 36px}
+        .ncx-footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px}
+        .ncx-footer .tagline{color:#9AA5BF;margin:16px 0 0;max-width:34ch;font-size:16px;line-height:1.6}
+        .ncx-footer h5{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:14px;
+          font-weight:500;margin:0 0 14px;color:#9AA5BF}
+        .ncx-footer a{display:block;color:#fff;text-decoration:none;font-size:16px;
+          margin-bottom:9px;opacity:.85}
+        .ncx-footer a:hover{opacity:1}
+        .ncx-footer .note{margin-top:48px;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);
+          font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:14px;color:#9AA5BF;
+          display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+        .ncx-footer .note a{display:inline;margin:0 0 0 16px;color:#9AA5BF;font-size:14px}
+        @media(max-width:900px){
+          .ncx-footer .inner{padding:44px 20px 28px}
+          .ncx-footer .cols{grid-template-columns:1fr;gap:32px}
+        }
+      `}</style>
 
-        <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
-          <ThemeSelector />
-          <nav className="flex flex-col md:flex-row gap-4">
-            {navItems.map(({ link }, i) => {
-              return <CMSLink className="text-white" key={i} {...link} />
-            })}
-          </nav>
+      <div className="inner">
+        <div className="cols">
+          <div>
+            <Link href="/">
+              <Logo />
+            </Link>
+            {footerData?.tagline ? <p className="tagline">{footerData.tagline}</p> : null}
+          </div>
+
+          {columns.map((column: any, i: number) => (
+            <div key={i}>
+              <h5>{column?.title}</h5>
+              {(column?.navItems || []).map(({ link }: any, j: number) => (
+                <Link key={j} href={hrefFor(link)}>
+                  {link?.label}
+                </Link>
+              ))}
+            </div>
+          ))}
+
+          {footerData?.email || footerData?.phone ? (
+            <div>
+              <h5>Contact</h5>
+              {footerData?.email ? (
+                <a href={`mailto:${footerData.email}`}>{footerData.email}</a>
+              ) : null}
+              {footerData?.phone ? <a href={`tel:${footerData.phone}`}>{footerData.phone}</a> : null}
+            </div>
+          ) : null}
+        </div>
+
+        <div className="note">
+          <span>© {new Date().getFullYear()} NeuronCx</span>
+          <span>
+            {legalItems.map(({ link }: any, i: number) => (
+              <Link key={i} href={hrefFor(link)}>
+                {link?.label}
+              </Link>
+            ))}
+          </span>
         </div>
       </div>
     </footer>
