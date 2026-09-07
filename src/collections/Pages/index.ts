@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { FeatureThread } from '../../blocks/FeatureThread/config'
+import { ArticleGrid } from '../../blocks/ArticleGrid/config'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
@@ -73,7 +74,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-                            blocks: [ConversationHero, FeatureThread, CallToAction, Content, MediaBlock, Archive],
+                                          blocks: [ConversationHero, FeatureThread, ArticleGrid, CallToAction, Content, MediaBlock, Archive],
               required: true,
               admin: {
                 initCollapsed: true,

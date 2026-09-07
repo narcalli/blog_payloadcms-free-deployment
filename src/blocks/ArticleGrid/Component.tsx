@@ -34,7 +34,7 @@ export const ArticleGridBlock: React.FC<Props> = async ({ heading, intro, limit 
         .ncx-articles h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:500;
           font-size:34px;letter-spacing:-.025em;margin:0 0 8px}
         .ncx-articles .lede{color:var(--ink-soft);margin:0 0 40px;max-width:52ch;font-size:17px}
-        .ncx-articles .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+        .ncx-articles .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;
           background:var(--rule);border:1px solid var(--rule)}
         .ncx-articles .card{background:#fff;padding:26px 24px;text-decoration:none;color:inherit;
           display:block}

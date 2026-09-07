@@ -71,6 +71,7 @@ export interface Config {
     posts: Post;
     media: Media;
     categories: Category;
+    features: Feature;
     users: User;
     redirects: Redirect;
     'payload-kv': PayloadKv;
@@ -90,6 +91,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    features: FeaturesSelect<false> | FeaturesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -195,7 +197,15 @@ export interface Page {
       | null;
     media?: (string | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock)[];
+  layout: (
+    | ConversationHeroBlock
+    | FeatureThreadBlock
+    | ArticleGridBlock
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -426,6 +436,86 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConversationHeroBlock".
+ */
+export interface ConversationHeroBlock {
+  /**
+   * The main statement at the top of the page. Short and direct works best — around six to eight words.
+   */
+  headline: string;
+  /**
+   * One or two sentences explaining what the product does, in plain language.
+   */
+  subhead: string;
+  /**
+   * Text on the dark button. Start with a verb.
+   */
+  primaryButtonLabel?: string | null;
+  /**
+   * Where the dark button goes. Use /page-name for this site, or a full address for elsewhere.
+   */
+  primaryButtonLink?: string | null;
+  /**
+   * Text on the outlined button. Leave empty to hide it.
+   */
+  secondaryButtonLabel?: string | null;
+  secondaryButtonLink?: string | null;
+  /**
+   * The small line above the conversation. Name the channel and the customer, e.g. WhatsApp · Ayurvaid Hospitals · 11:42
+   */
+  conversationLabel?: string | null;
+  /**
+   * One message per line. Start a line with "them:" for the customer, "us:" for the agent, and "tag:" for a small label under the last message. A line with no prefix continues the message above it.
+   */
+  conversation: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'conversationHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureThreadBlock".
+ */
+export interface FeatureThreadBlock {
+  /**
+   * Optional heading above the section. Leave empty for no heading.
+   */
+  heading?: string | null;
+  /**
+   * Which categories to show, in this order. Published features in each category appear automatically, sorted by their order number.
+   */
+  categories?: ('omnichannel-cx' | 'knowledge-base' | 'user-intelligence' | 'integrations')[] | null;
+  /**
+   * How many features to show from each category. Use 1 for the home page summary, or a higher number for a full listing.
+   */
+  limitPerCategory?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featureThread';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ArticleGridBlock".
+ */
+export interface ArticleGridBlock {
+  /**
+   * Heading above the articles.
+   */
+  heading?: string | null;
+  /**
+   * Optional line under the heading.
+   */
+  intro?: string | null;
+  /**
+   * How many articles to show. The most recently published appear first.
+   */
+  limit?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'articleGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
@@ -565,6 +655,61 @@ export interface ArchiveBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'archive';
+}
+/**
+ * Short product capability descriptions. These appear in the sections on the home page and on the platform pages.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "features".
+ */
+export interface Feature {
+  id: string;
+  /**
+   * The name of the capability, as a reader would say it. Keep it under 60 characters.
+   */
+  title: string;
+  /**
+   * Which part of the platform this belongs to. Decides where it appears on the site.
+   */
+  category: 'omnichannel-cx' | 'knowledge-base' | 'user-intelligence' | 'integrations';
+  /**
+   * One or two plain sentences describing what this does for the customer. Shown in listings and on the home page.
+   */
+  summary: string;
+  /**
+   * Optional longer explanation, shown on the feature page itself.
+   */
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Optional illustration. Landscape images work best.
+   */
+  image?: (string | null) | Media;
+  /**
+   * Lower numbers appear first within a category.
+   */
+  order?: number | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -725,6 +870,10 @@ export interface PayloadLockedDocument {
         value: string | Category;
       } | null)
     | ({
+        relationTo: 'features';
+        value: string | Feature;
+      } | null)
+    | ({
         relationTo: 'users';
         value: string | User;
       } | null)
@@ -809,6 +958,9 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        conversationHero?: T | ConversationHeroBlockSelect<T>;
+        featureThread?: T | FeatureThreadBlockSelect<T>;
+        articleGrid?: T | ArticleGridBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
@@ -827,6 +979,44 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConversationHeroBlock_select".
+ */
+export interface ConversationHeroBlockSelect<T extends boolean = true> {
+  headline?: T;
+  subhead?: T;
+  primaryButtonLabel?: T;
+  primaryButtonLink?: T;
+  secondaryButtonLabel?: T;
+  secondaryButtonLink?: T;
+  conversationLabel?: T;
+  conversation?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureThreadBlock_select".
+ */
+export interface FeatureThreadBlockSelect<T extends boolean = true> {
+  heading?: T;
+  categories?: T;
+  limitPerCategory?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ArticleGridBlock_select".
+ */
+export interface ArticleGridBlockSelect<T extends boolean = true> {
+  heading?: T;
+  intro?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1039,6 +1229,23 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "features_select".
+ */
+export interface FeaturesSelect<T extends boolean = true> {
+  title?: T;
+  category?: T;
+  summary?: T;
+  body?: T;
+  image?: T;
+  order?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -1194,7 +1401,54 @@ export interface Header {
  */
 export interface Footer {
   id: string;
-  navItems?:
+  /**
+   * One or two sentences under the logo describing what NeuronCx does.
+   */
+  tagline?: string | null;
+  /**
+   * Groups of links on the right side of the footer, e.g. Platform and Company.
+   */
+  columns?:
+    | {
+        /**
+         * Heading for this group of links.
+         */
+        title: string;
+        navItems?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: string | Post;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Contact email shown in the footer.
+   */
+  email?: string | null;
+  /**
+   * Contact phone number shown in the footer.
+   */
+  phone?: string | null;
+  /**
+   * Small links on the bottom line, e.g. Terms and Privacy.
+   */
+  legalItems?:
     | {
         link: {
           type?: ('reference' | 'custom') | null;
@@ -1245,7 +1499,30 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
-  navItems?:
+  tagline?: T;
+  columns?:
+    | T
+    | {
+        title?: T;
+        navItems?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+        id?: T;
+      };
+  email?: T;
+  phone?: T;
+  legalItems?:
     | T
     | {
         link?:
@@ -1289,6 +1566,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: string | Post;
+        } | null)
+      | ({
+          relationTo: 'features';
+          value: string | Feature;
         } | null);
     global?: string | null;
     user?: (string | null) | User;
