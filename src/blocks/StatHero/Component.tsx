@@ -54,9 +54,9 @@ export const StatHeroBlock: React.FC<Props> = ({
         .ncx-stathero .spark{width:7px;height:7px;border-radius:50%;
           background:linear-gradient(135deg,var(--crimson),var(--violet))}
         .ncx-stathero h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:500;
-          font-size:clamp(38px,5.2vw,62px);line-height:1.04;letter-spacing:-.04em;
-          margin:0 auto;max-width:17ch;
-          background:linear-gradient(170deg,#16203A 45%,#5A4FD0 100%);
+          font-size:clamp(36px,4.6vw,56px);line-height:1.06;letter-spacing:-.035em;
+          margin:0 auto;max-width:20ch;text-wrap:balance;
+          background:linear-gradient(170deg,#16203A 55%,#2E3C7E 100%);
           -webkit-background-clip:text;background-clip:text;color:transparent}
         .ncx-stathero .sub{margin:24px auto 0;max-width:60ch;font-size:19px;line-height:1.65;color:var(--soft)}
         .ncx-stathero .cta{margin-top:34px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
