@@ -198,6 +198,14 @@ export interface Page {
     media?: (string | null) | Media;
   };
   layout: (
+    | StatHeroBlock
+    | LogoWallBlock
+    | ProductSuiteBlock
+    | UseCasesBlock
+    | BenefitsBlock
+    | IntegrationsBlock
+    | HowItWorksBlock
+    | ClosingCtaBlock
     | ConversationHeroBlock
     | FeatureThreadBlock
     | ArticleGridBlock
@@ -433,6 +441,253 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatHeroBlock".
+ */
+export interface StatHeroBlock {
+  /**
+   * Small line above the headline. A short category statement, e.g. "AI automation for patient journeys".
+   */
+  eyebrow?: string | null;
+  /**
+   * The main statement. Six to nine words works best.
+   */
+  headline: string;
+  /**
+   * One or two sentences explaining what the platform does and for whom.
+   */
+  subhead?: string | null;
+  primaryLabel?: string | null;
+  primaryLink?: string | null;
+  /**
+   * Leave empty to hide the second button.
+   */
+  secondaryLabel?: string | null;
+  secondaryLink?: string | null;
+  /**
+   * Headline numbers. Use real, defensible figures - three works best.
+   */
+  stats?:
+    | {
+        /**
+         * e.g. 40%, 2.5x, 14+
+         */
+        value: string;
+        /**
+         * What the number means, in three or four words.
+         */
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'statHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LogoWallBlock".
+ */
+export interface LogoWallBlock {
+  /**
+   * Short and plain, e.g. "Trusted by". Leave empty to hide.
+   */
+  label?: string | null;
+  heading?: string | null;
+  /**
+   * One or two sentences. Leave empty to hide.
+   */
+  intro?: string | null;
+  /**
+   * Use transparent PNG or SVG files. Logos with a solid background will show as a coloured box.
+   */
+  logos?:
+    | {
+        /**
+         * Used as the image alt text, for accessibility and SEO.
+         */
+        name?: string | null;
+        logo: string | Media;
+        /**
+         * Leave at 100 unless this logo looks too big or small next to the others. Round crests usually need 130–150; wide wordmarks sometimes need 80.
+         */
+        scale?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'logoWall';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductSuiteBlock".
+ */
+export interface ProductSuiteBlock {
+  label?: string | null;
+  heading?: string | null;
+  intro?: string | null;
+  /**
+   * Keep these matched to the main navigation so the site says one thing.
+   */
+  products?:
+    | {
+        name: string;
+        /**
+         * One or two plain sentences. Say what it does, not why it is good.
+         */
+        summary?: string | null;
+        points?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        linkLabel?: string | null;
+        /**
+         * For example /omnichannel-cx
+         */
+        linkHref?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'productSuite';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UseCasesBlock".
+ */
+export interface UseCasesBlock {
+  label?: string | null;
+  heading?: string | null;
+  intro?: string | null;
+  cases?:
+    | {
+        /**
+         * For example Hospitals, Diagnostics, Universities.
+         */
+        sector?: string | null;
+        /**
+         * Name the job, e.g. "Appointment booking and rescheduling".
+         */
+        title: string;
+        description?: string | null;
+        /**
+         * A result, ideally measured. Leave empty rather than inventing one.
+         */
+        outcome?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'useCases';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BenefitsBlock".
+ */
+export interface BenefitsBlock {
+  label?: string | null;
+  heading?: string | null;
+  /**
+   * Say what changes for the customer, not what the software contains.
+   */
+  items?:
+    | {
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'benefits';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IntegrationsBlock".
+ */
+export interface IntegrationsBlock {
+  label?: string | null;
+  heading?: string | null;
+  intro?: string | null;
+  items?:
+    | {
+        name: string;
+        /**
+         * What flows between the two systems, in plain words.
+         */
+        summary?: string | null;
+        /**
+         * Transparent PNG or SVG. Leave empty to show the name only.
+         */
+        logo?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * For example: anything else connects over our REST API and webhooks.
+   */
+  footnote?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'integrations';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HowItWorksBlock".
+ */
+export interface HowItWorksBlock {
+  /**
+   * Small line above the heading.
+   */
+  label?: string | null;
+  /**
+   * The section heading.
+   */
+  heading: string;
+  intro?: string | null;
+  /**
+   * Numbered automatically. Three steps is the readable maximum for most visitors.
+   */
+  steps?:
+    | {
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Leave empty to hide the button.
+   */
+  ctaLabel?: string | null;
+  ctaLink?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'howItWorks';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ClosingCtaBlock".
+ */
+export interface ClosingCtaBlock {
+  /**
+   * The last thing a visitor reads. Make it a clear ask.
+   */
+  heading: string;
+  subhead?: string | null;
+  primaryLabel?: string | null;
+  primaryLink?: string | null;
+  secondaryLabel?: string | null;
+  secondaryLink?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'closingCta';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -958,6 +1213,14 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        statHero?: T | StatHeroBlockSelect<T>;
+        logoWall?: T | LogoWallBlockSelect<T>;
+        productSuite?: T | ProductSuiteBlockSelect<T>;
+        useCases?: T | UseCasesBlockSelect<T>;
+        benefits?: T | BenefitsBlockSelect<T>;
+        integrations?: T | IntegrationsBlockSelect<T>;
+        howItWorks?: T | HowItWorksBlockSelect<T>;
+        closingCta?: T | ClosingCtaBlockSelect<T>;
         conversationHero?: T | ConversationHeroBlockSelect<T>;
         featureThread?: T | FeatureThreadBlockSelect<T>;
         articleGrid?: T | ArticleGridBlockSelect<T>;
@@ -979,6 +1242,164 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatHeroBlock_select".
+ */
+export interface StatHeroBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  headline?: T;
+  subhead?: T;
+  primaryLabel?: T;
+  primaryLink?: T;
+  secondaryLabel?: T;
+  secondaryLink?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LogoWallBlock_select".
+ */
+export interface LogoWallBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  intro?: T;
+  logos?:
+    | T
+    | {
+        name?: T;
+        logo?: T;
+        scale?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductSuiteBlock_select".
+ */
+export interface ProductSuiteBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  intro?: T;
+  products?:
+    | T
+    | {
+        name?: T;
+        summary?: T;
+        points?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        linkLabel?: T;
+        linkHref?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UseCasesBlock_select".
+ */
+export interface UseCasesBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  intro?: T;
+  cases?:
+    | T
+    | {
+        sector?: T;
+        title?: T;
+        description?: T;
+        outcome?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BenefitsBlock_select".
+ */
+export interface BenefitsBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  items?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IntegrationsBlock_select".
+ */
+export interface IntegrationsBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  intro?: T;
+  items?:
+    | T
+    | {
+        name?: T;
+        summary?: T;
+        logo?: T;
+        id?: T;
+      };
+  footnote?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HowItWorksBlock_select".
+ */
+export interface HowItWorksBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  intro?: T;
+  steps?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  ctaLabel?: T;
+  ctaLink?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ClosingCtaBlock_select".
+ */
+export interface ClosingCtaBlockSelect<T extends boolean = true> {
+  heading?: T;
+  subhead?: T;
+  primaryLabel?: T;
+  primaryLink?: T;
+  secondaryLabel?: T;
+  secondaryLink?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

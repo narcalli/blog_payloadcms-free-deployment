@@ -14,6 +14,10 @@ import { LivePreviewListener } from '@/components/LivePreviewListener'
 
 export const dynamic = 'force-dynamic'
 
+// Blocks that own their top spacing and should sit flush under the header.
+// Keep in sync with noMargin in src/blocks/RenderBlocks.tsx.
+const flushFirstBlocks = ['conversationHero', 'statHero', 'closingCta']
+
 type Args = {
   params: Promise<{
     slug?: string
@@ -38,8 +42,13 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const { hero, layout } = page
 
+  // A page whose hero is disabled and whose first block is flush gets no top padding.
+  const heroDisabled = !hero || hero.type === 'none'
+  const firstBlockType = Array.isArray(layout) && layout.length ? String(layout[0]?.blockType) : ''
+  const startsFlush = heroDisabled && flushFirstBlocks.includes(firstBlockType)
+
   return (
-    <article className="pt-16 pb-24">
+    <article className={startsFlush ? 'pb-24' : 'pt-16 pb-24'}>
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />

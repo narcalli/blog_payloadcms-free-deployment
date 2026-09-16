@@ -14,6 +14,14 @@ import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { ClosingCTA } from '../../blocks/ClosingCTA/config'
+import { HowItWorks } from '../../blocks/HowItWorks/config'
+import { LogoWall } from '../../blocks/LogoWall/config'
+import { StatHero } from '../../blocks/StatHero/config'
+import { Benefits } from '../../blocks/Benefits/config'
+import { Integrations } from '../../blocks/Integrations/config'
+import { ProductSuite } from '../../blocks/ProductSuite/config'
+import { UseCases } from '../../blocks/UseCases/config'
 
 import {
   MetaDescriptionField,
@@ -74,7 +82,23 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-                                          blocks: [ConversationHero, FeatureThread, ArticleGrid, CallToAction, Content, MediaBlock, Archive],
+              blocks: [
+                StatHero,
+                LogoWall,
+                ProductSuite,
+                UseCases,
+                Benefits,
+                Integrations,
+                HowItWorks,
+                ClosingCTA,
+                ConversationHero,
+                FeatureThread,
+                ArticleGrid,
+                CallToAction,
+                Content,
+                MediaBlock,
+                Archive,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,
