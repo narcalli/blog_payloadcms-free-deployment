@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import { Logo } from '@/components/Logo/Logo'
 
 function hrefFor(link: any): string {
@@ -17,8 +16,8 @@ function hrefFor(link: any): string {
 }
 
 export async function Footer() {
-  const payload = await getPayload({ config: configPromise })
-  const footerData: any = await payload.findGlobal({ slug: 'footer', depth: 2 })
+  // Tagged as `global_footer` so the revalidateFooter hook can invalidate it.
+  const footerData: any = await getCachedGlobal('footer', 2)()
 
   const columns = footerData?.columns || []
   const legalItems = footerData?.legalItems || []
