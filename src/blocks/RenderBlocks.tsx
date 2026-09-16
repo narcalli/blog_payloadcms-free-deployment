@@ -17,12 +17,14 @@ import { BenefitsBlock } from '@/blocks/Benefits/Component'
 import { IntegrationsBlock } from '@/blocks/Integrations/Component'
 import { ProductSuiteBlock } from '@/blocks/ProductSuite/Component'
 import { UseCasesBlock } from '@/blocks/UseCases/Component'
+import { ContactFormBlock } from '@/blocks/ContactForm/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
   articleGrid: ArticleGridBlock,
   benefits: BenefitsBlock,
   closingCta: ClosingCtaBlock,
+  contactForm: ContactFormBlock,
   content: ContentBlock,
   conversationHero: ConversationHeroBlock,
   cta: CallToActionBlock,

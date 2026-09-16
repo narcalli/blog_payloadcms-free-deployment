@@ -73,6 +73,7 @@ export interface Config {
     categories: Category;
     features: Feature;
     users: User;
+    enquiries: Enquiry;
     redirects: Redirect;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
@@ -93,6 +94,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     features: FeaturesSelect<false> | FeaturesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
@@ -204,6 +206,7 @@ export interface Page {
     | UseCasesBlock
     | BenefitsBlock
     | IntegrationsBlock
+    | ContactFormBlock
     | HowItWorksBlock
     | ClosingCtaBlock
     | ConversationHeroBlock
@@ -640,6 +643,21 @@ export interface IntegrationsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactFormBlock".
+ */
+export interface ContactFormBlock {
+  label?: string | null;
+  heading?: string | null;
+  intro?: string | null;
+  buttonLabel?: string | null;
+  successMessage?: string | null;
+  showMessageField?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contactForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "HowItWorksBlock".
  */
 export interface HowItWorksBlock {
@@ -967,6 +985,27 @@ export interface Feature {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Enquiries submitted from the website contact form.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enquiries".
+ */
+export interface Enquiry {
+  id: string;
+  name: string;
+  company?: string | null;
+  email: string;
+  mobile?: string | null;
+  message?: string | null;
+  /**
+   * The page the form was submitted from.
+   */
+  sourcePage?: string | null;
+  handled?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -1133,6 +1172,10 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
+        relationTo: 'enquiries';
+        value: string | Enquiry;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -1219,6 +1262,7 @@ export interface PagesSelect<T extends boolean = true> {
         useCases?: T | UseCasesBlockSelect<T>;
         benefits?: T | BenefitsBlockSelect<T>;
         integrations?: T | IntegrationsBlockSelect<T>;
+        contactForm?: T | ContactFormBlockSelect<T>;
         howItWorks?: T | HowItWorksBlockSelect<T>;
         closingCta?: T | ClosingCtaBlockSelect<T>;
         conversationHero?: T | ConversationHeroBlockSelect<T>;
@@ -1364,6 +1408,20 @@ export interface IntegrationsBlockSelect<T extends boolean = true> {
         id?: T;
       };
   footnote?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactFormBlock_select".
+ */
+export interface ContactFormBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  intro?: T;
+  buttonLabel?: T;
+  successMessage?: T;
+  showMessageField?: T;
   id?: T;
   blockName?: T;
 }
@@ -1687,6 +1745,21 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enquiries_select".
+ */
+export interface EnquiriesSelect<T extends boolean = true> {
+  name?: T;
+  company?: T;
+  email?: T;
+  mobile?: T;
+  message?: T;
+  sourcePage?: T;
+  handled?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -22,6 +22,7 @@ import { Benefits } from '../../blocks/Benefits/config'
 import { Integrations } from '../../blocks/Integrations/config'
 import { ProductSuite } from '../../blocks/ProductSuite/config'
 import { UseCases } from '../../blocks/UseCases/config'
+import { ContactForm } from '../../blocks/ContactForm/config'
 
 import {
   MetaDescriptionField,
@@ -89,6 +90,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 UseCases,
                 Benefits,
                 Integrations,
+                ContactForm,
                 HowItWorks,
                 ClosingCTA,
                 ConversationHero,
