@@ -11,11 +11,17 @@ type Props = {
   label?: string | null
   heading?: string | null
   intro?: string | null
+  display?: 'wordmarks' | 'logos' | null
   logos?: LogoItem[] | null
 }
 
-export const LogoWallBlock: React.FC<Props> = ({ label, heading, intro, logos }) => {
-  const items = (logos || []).filter((l) => l?.logo && typeof l.logo === 'object' && l.logo.url)
+export const LogoWallBlock: React.FC<Props> = ({ label, heading, intro, display, logos }) => {
+  const asText = display !== 'logos'
+
+  // In wordmark mode a name is enough. In logo mode the file has to have resolved.
+  const items = (logos || []).filter((l) =>
+    asText ? l?.name : l?.logo && typeof l.logo === 'object' && l.logo.url,
+  )
   if (!items.length) return null
 
   return (
@@ -33,16 +39,22 @@ export const LogoWallBlock: React.FC<Props> = ({ label, heading, intro, logos })
         .ncx-logowall h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:500;
           font-size:32px;letter-spacing:-.025em;margin:0}
         .ncx-logowall .intro{color:var(--soft);margin:12px auto 0;max-width:60ch;font-size:17px}
-        .ncx-logowall .grid{margin-top:40px;display:grid;
-          grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:36px 24px;align-items:center}
-        .ncx-logowall .cell{display:flex;align-items:center;justify-content:center;height:44px}
-        .ncx-logowall img{width:auto;max-width:150px;object-fit:contain;display:block;
+        .ncx-logowall .grid{margin-top:40px;display:flex;flex-wrap:nowrap;
+          gap:20px;align-items:center;justify-content:space-between}
+        .ncx-logowall .cell{flex:1 1 0;min-width:0;
+          display:flex;align-items:center;justify-content:center;height:44px}
+        .ncx-logowall img{width:auto;max-width:100%;object-fit:contain;display:block;
           filter:grayscale(1);opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,filter .2s}
         .ncx-logowall img:hover{filter:none;opacity:1}
+        .ncx-logowall .wordmark{font-family:"Bricolage Grotesque",system-ui,sans-serif;
+          font-size:16px;font-weight:600;letter-spacing:-.01em;color:#8A93AB;
+          white-space:nowrap;transition:color .2s}
+        .ncx-logowall .cell:hover .wordmark{color:var(--ink)}
         @media(max-width:900px){.ncx-logowall{padding:40px 0}
           .ncx-logowall .inner{padding:0 20px}
-          .ncx-logowall .grid{gap:28px 18px}
-          .ncx-logowall .cell{height:36px}}
+          .ncx-logowall .grid{flex-wrap:wrap;justify-content:center;gap:26px 20px}
+          .ncx-logowall .cell{flex:0 0 26%;height:34px}}
+        @media(max-width:560px){.ncx-logowall .cell{flex:0 0 40%}}
       `}</style>
 
       <div className="inner">
@@ -52,6 +64,14 @@ export const LogoWallBlock: React.FC<Props> = ({ label, heading, intro, logos })
 
         <div className="grid">
           {items.map((l, i) => {
+            if (asText) {
+              return (
+                <div className="cell" key={l.id || i}>
+                  <span className="wordmark">{l.name}</span>
+                </div>
+              )
+            }
+
             const pct = typeof l.scale === 'number' && l.scale > 0 ? l.scale : 100
             return (
               <div className="cell" key={l.id || i}>

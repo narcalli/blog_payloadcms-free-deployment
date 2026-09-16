@@ -3,23 +3,19 @@ import type { Block } from 'payload'
 export const FeatureThread: Block = {
   slug: 'featureThread',
   interfaceName: 'FeatureThreadBlock',
-  labels: {
-    singular: 'Feature thread',
-    plural: 'Feature threads',
-  },
+  labels: { singular: 'Feature Thread', plural: 'Feature Threads' },
   fields: [
     {
       name: 'heading',
       type: 'text',
-      admin: {
-        description: 'Optional heading above the section. Leave empty for no heading.',
-      },
+      label: 'Heading',
+      admin: { description: 'Optional. Leave empty to show the features with no heading.' },
     },
     {
       name: 'categories',
       type: 'select',
       hasMany: true,
-      defaultValue: ['omnichannel-cx', 'knowledge-base', 'user-intelligence', 'integrations'],
+      label: 'Categories to show',
       options: [
         { label: 'Omnichannel CX', value: 'omnichannel-cx' },
         { label: 'Knowledge base', value: 'knowledge-base' },
@@ -27,17 +23,29 @@ export const FeatureThread: Block = {
         { label: 'Integrations', value: 'integrations' },
       ],
       admin: {
-        description:
-          'Which categories to show, in this order. Published features in each category appear automatically, sorted by their order number.',
+        description: 'Leave empty to show all four. Pick one when this sits on a product page.',
       },
     },
     {
       name: 'limitPerCategory',
       type: 'number',
+      label: 'How many per category',
       defaultValue: 1,
+      min: 1,
+      max: 8,
       admin: {
         description:
-          'How many features to show from each category. Use 1 for the home page summary, or a higher number for a full listing.',
+          'Only published features are shown, in the order set on each feature. One per category suits the home page; three or four suits a product page.',
+      },
+    },
+    {
+      name: 'hideCategoryLinks',
+      type: 'checkbox',
+      label: 'Hide the "More on ..." links',
+      defaultValue: false,
+      admin: {
+        description:
+          'Tick this when the block is on the category page it would link to — otherwise every entry links back to the page the visitor is already reading.',
       },
     },
   ],

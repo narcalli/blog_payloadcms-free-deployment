@@ -6,6 +6,7 @@ type Props = {
   heading?: string | null
   categories?: string[] | null
   limitPerCategory?: number | null
+  hideCategoryLinks?: boolean | null
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -26,6 +27,7 @@ export const FeatureThreadBlock: React.FC<Props> = async ({
   heading,
   categories,
   limitPerCategory,
+  hideCategoryLinks,
 }) => {
   const payload = await getPayload({ config: configPromise })
   const cats = categories?.length
@@ -55,19 +57,21 @@ export const FeatureThreadBlock: React.FC<Props> = async ({
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500&family=Source+Serif+4:opsz,wght@8..60,400&display=swap');
         .ncx-thread{--ink:#16203A;--ink-soft:#4A5573;--crimson:#E0245E;--rule:#DFE3EA;
-          position:relative;max-width:1120px;margin:0 auto;padding:64px 32px;
+          position:relative;max-width:1120px;margin:0 auto;padding:48px 32px;
           font-family:"Source Serif 4",Georgia,serif;color:var(--ink)}
         .ncx-thread h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:500;
           font-size:34px;letter-spacing:-.025em;margin:0 0 44px}
-        .ncx-thread .spine{position:relative}
+        .ncx-thread .spine{position:relative;display:grid;grid-template-columns:1fr 1fr;
+          column-gap:8%;row-gap:20px;align-items:start}
         .ncx-thread .spine:before{content:"";position:absolute;left:50%;top:8px;bottom:8px;
           width:1px;background:var(--rule)}
-        .ncx-thread .turn{position:relative;width:46%;margin-bottom:56px}
-        .ncx-thread .turn.right{margin-left:54%}
+        .ncx-thread .turn{position:relative}
+        .ncx-thread .turn.left{grid-column:1}
+        .ncx-thread .turn.right{grid-column:2}
         .ncx-thread .turn:before{content:"";position:absolute;top:12px;width:9px;height:9px;
           border-radius:50%;background:var(--crimson)}
-        .ncx-thread .turn.left:before{right:-8.9%}
-        .ncx-thread .turn.right:before{left:-8.9%}
+        .ncx-thread .turn.left:before{right:-4.6%}
+        .ncx-thread .turn.right:before{left:-4.6%}
         .ncx-thread .cat{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:13px;
           color:var(--crimson);margin-bottom:8px;display:block}
         .ncx-thread h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:500;
@@ -78,8 +82,9 @@ export const FeatureThreadBlock: React.FC<Props> = async ({
           border-bottom:1px solid currentColor}
         @media(max-width:900px){
           .ncx-thread{padding:40px 20px}
+          .ncx-thread .spine{grid-template-columns:1fr;row-gap:26px}
           .ncx-thread .spine:before{left:4px}
-          .ncx-thread .turn,.ncx-thread .turn.right{width:100%;margin-left:0;padding-left:30px}
+          .ncx-thread .turn.left,.ncx-thread .turn.right{grid-column:1;padding-left:30px}
           .ncx-thread .turn.left:before,.ncx-thread .turn.right:before{left:0;right:auto}
         }
       `}</style>
@@ -96,9 +101,11 @@ export const FeatureThreadBlock: React.FC<Props> = async ({
                 <span className="cat">{CATEGORY_LABELS[group.category] || group.category}</span>
                 <h3>{item.title}</h3>
                 <p>{item.summary}</p>
-                <a className="more" href={CATEGORY_PATHS[group.category] || '#'}>
-                  More on {(CATEGORY_LABELS[group.category] || '').toLowerCase()}
-                </a>
+                {hideCategoryLinks ? null : (
+                  <a className="more" href={CATEGORY_PATHS[group.category] || '#'}>
+                    More on {CATEGORY_LABELS[group.category] || group.category}
+                  </a>
+                )}
               </div>
             )
           }),

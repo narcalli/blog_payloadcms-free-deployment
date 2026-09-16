@@ -30,31 +30,50 @@ export const LogoWall: Block = {
       },
     },
     {
+      name: 'display',
+      type: 'radio',
+      label: 'How to show clients',
+      defaultValue: 'wordmarks',
+      options: [
+        { label: 'Client names as text', value: 'wordmarks' },
+        { label: 'Client logos', value: 'logos' },
+      ],
+      admin: {
+        layout: 'horizontal',
+        description:
+          'Logos are more convincing, but every file needs a transparent background. Switch to logos once you have proper assets for all of them.',
+      },
+    },
+    {
       name: 'logos',
       type: 'array',
-      label: 'Logos',
+      label: 'Clients',
       minRows: 1,
       maxRows: 12,
       admin: {
         description:
-          'Use transparent PNG or SVG files. Logos with a solid background will show as a coloured box.',
+          'The name is always used. A logo file is only needed when the display mode above is set to logos.',
         initCollapsed: true,
       },
       fields: [
         {
           name: 'name',
           type: 'text',
+          required: true,
           label: 'Client name',
           admin: {
-            description: 'Used as the image alt text, for accessibility and SEO.',
+            description:
+              'Shown as text in wordmark mode, and used as the image alt text in logo mode. Keep it short — long names crowd the row.',
           },
         },
         {
           name: 'logo',
           type: 'upload',
           relationTo: 'media',
-          required: true,
           label: 'Logo file',
+          admin: {
+            description: 'Transparent PNG or SVG. Only used in logo mode.',
+          },
         },
         {
           name: 'scale',
@@ -65,7 +84,7 @@ export const LogoWall: Block = {
           max: 200,
           admin: {
             description:
-              'Leave at 100 unless this logo looks too big or small next to the others. Round crests usually need 130–150; wide wordmarks sometimes need 80.',
+              'Logo mode only. Leave at 100 unless a logo looks too big or small next to the others. Round crests usually need 130–150.',
           },
         },
       ],

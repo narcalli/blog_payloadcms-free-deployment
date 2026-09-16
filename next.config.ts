@@ -53,6 +53,34 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   redirects,
+  // CloudFront in front of Amplify caches rendered HTML. The revalidatePage hook
+  // calls revalidatePath, which only clears the Lambda instance that handled the
+  // request — the CDN keeps serving the old page until a redeploy. These headers
+  // cap how long that can happen: the CDN holds a page for 60s, then serves the
+  // stale copy while fetching a fresh one for up to 5 minutes. Published edits
+  // appear within about a minute without a deployment.
+  // Excludes /admin and /api, which must never be cached.
+  async headers() {
+    return [
+      {
+        source: '/((?!admin|api|_next/static|_next/image).*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, s-maxage=60, stale-while-revalidate=300',
+          },
+        ],
+      },
+      {
+        source: '/admin/:path*',
+        headers: [{ key: 'Cache-Control', value: 'no-store, must-revalidate' }],
+      },
+      {
+        source: '/api/:path*',
+        headers: [{ key: 'Cache-Control', value: 'no-store, must-revalidate' }],
+      },
+    ]
+  },
   turbopack: {
     root: path.resolve(dirname),
   },

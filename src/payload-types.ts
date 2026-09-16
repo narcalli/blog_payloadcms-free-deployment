@@ -504,17 +504,24 @@ export interface LogoWallBlock {
    */
   intro?: string | null;
   /**
-   * Use transparent PNG or SVG files. Logos with a solid background will show as a coloured box.
+   * Logos are more convincing, but every file needs a transparent background. Switch to logos once you have proper assets for all of them.
+   */
+  display?: ('wordmarks' | 'logos') | null;
+  /**
+   * The name is always used. A logo file is only needed when the display mode above is set to logos.
    */
   logos?:
     | {
         /**
-         * Used as the image alt text, for accessibility and SEO.
+         * Shown as text in wordmark mode, and used as the image alt text in logo mode. Keep it short — long names crowd the row.
          */
-        name?: string | null;
-        logo: string | Media;
+        name: string;
         /**
-         * Leave at 100 unless this logo looks too big or small next to the others. Round crests usually need 130–150; wide wordmarks sometimes need 80.
+         * Transparent PNG or SVG. Only used in logo mode.
+         */
+        logo?: (string | null) | Media;
+        /**
+         * Logo mode only. Leave at 100 unless a logo looks too big or small next to the others. Round crests usually need 130–150.
          */
         scale?: number | null;
         id?: string | null;
@@ -751,17 +758,21 @@ export interface ConversationHeroBlock {
  */
 export interface FeatureThreadBlock {
   /**
-   * Optional heading above the section. Leave empty for no heading.
+   * Optional. Leave empty to show the features with no heading.
    */
   heading?: string | null;
   /**
-   * Which categories to show, in this order. Published features in each category appear automatically, sorted by their order number.
+   * Leave empty to show all four. Pick one when this sits on a product page.
    */
   categories?: ('omnichannel-cx' | 'knowledge-base' | 'user-intelligence' | 'integrations')[] | null;
   /**
-   * How many features to show from each category. Use 1 for the home page summary, or a higher number for a full listing.
+   * Only published features are shown, in the order set on each feature. One per category suits the home page; three or four suits a product page.
    */
   limitPerCategory?: number | null;
+  /**
+   * Tick this when the block is on the category page it would link to — otherwise every entry links back to the page the visitor is already reading.
+   */
+  hideCategoryLinks?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'featureThread';
@@ -1317,6 +1328,7 @@ export interface LogoWallBlockSelect<T extends boolean = true> {
   label?: T;
   heading?: T;
   intro?: T;
+  display?: T;
   logos?:
     | T
     | {
@@ -1483,6 +1495,7 @@ export interface FeatureThreadBlockSelect<T extends boolean = true> {
   heading?: T;
   categories?: T;
   limitPerCategory?: T;
+  hideCategoryLinks?: T;
   id?: T;
   blockName?: T;
 }
