@@ -19,6 +19,16 @@ import { ProductSuiteBlock } from '@/blocks/ProductSuite/Component'
 import { UseCasesBlock } from '@/blocks/UseCases/Component'
 import { ContactFormBlock } from '@/blocks/ContactForm/Component'
 import { PartnerStripBlock } from '@/blocks/PartnerStrip/Component'
+import { ProblemStatementBlock } from '@/blocks/ProblemStatement/Component'
+import { PlatformLayersBlock } from '@/blocks/PlatformLayers/Component'
+import { JourneyEngineBlock } from '@/blocks/JourneyEngine/Component'
+import { ContextEngine } from '../../blocks/ContextEngine/config'
+import { ContextEngineBlock } from '@/blocks/ContextEngine/Component'
+import { SolutionGridBlock } from '@/blocks/SolutionGrid/Component'
+import { TrustPanelBlock } from '@/blocks/TrustPanel/Component'
+import { StatBandBlock } from '@/blocks/StatBand/Component'
+
+
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -38,10 +48,17 @@ const blockComponents = {
   productSuite: ProductSuiteBlock,
   statHero: StatHeroBlock,
   useCases: UseCasesBlock,
+  problemStatement: ProblemStatementBlock,
+  platformLayers: PlatformLayersBlock,
+  journeyEngine: JourneyEngineBlock,
+  contextEngine: ContextEngineBlock,
+  solutionGrid: SolutionGridBlock,
+  trustPanel: TrustPanelBlock,
+  statBand: StatBandBlock,
 }
 
 // Blocks that manage their own vertical spacing and should sit flush.
-const noMargin = ['conversationHero', 'statHero', 'closingCta', 'useCases', 'partnerStrip']
+const noMargin = ['conversationHero', 'statHero', 'closingCta', 'useCases', 'partnerStrip','platformLayers','trustPanel']
 
 export const RenderBlocks: React.FC<{
   blocks: Page['layout'][0][]

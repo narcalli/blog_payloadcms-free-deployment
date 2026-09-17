@@ -210,13 +210,20 @@ export interface Page {
     | IntegrationsBlock
     | ContactFormBlock
     | HowItWorksBlock
-    | ClosingCtaBlock
+    | ClosingCTABlock
     | FeatureThreadBlock
     | ArticleGridBlock
     | CallToActionBlock
     | ContentBlock
     | MediaBlock
     | ArchiveBlock
+    | ProblemStatementBlock
+    | PlatformLayersBlock
+    | JourneyEngineBlock
+    | ContextEngineBlock
+    | SolutionGridBlock
+    | TrustPanelBlock
+    | StatBandBlock
   )[];
   meta?: {
     title?: string | null;
@@ -805,9 +812,9 @@ export interface HowItWorksBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ClosingCtaBlock".
+ * via the `definition` "ClosingCTABlock".
  */
-export interface ClosingCtaBlock {
+export interface ClosingCTABlock {
   /**
    * The last thing a visitor reads. Make it a clear ask.
    */
@@ -817,6 +824,10 @@ export interface ClosingCtaBlock {
   primaryLink?: string | null;
   secondaryLabel?: string | null;
   secondaryLink?: string | null;
+  /**
+   * Optional, shown in italics. Short — a line, not a sentence.
+   */
+  tagline?: string | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'closingCta';
@@ -1008,6 +1019,283 @@ export interface ArchiveBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'archive';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProblemStatementBlock".
+ */
+export interface ProblemStatementBlock {
+  /**
+   * e.g. The problem
+   */
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  problems?:
+    | {
+        /**
+         * The short name of the problem, e.g. "Siloed systems".
+         */
+        title: string;
+        /**
+         * One sentence on what it costs them.
+         */
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Small italic line under the list. Optional.
+   */
+  note?: string | null;
+  /**
+   * The disconnected systems shown in the panel, e.g. Ops, CRM, Payments.
+   */
+  systems?:
+    | {
+        name: string;
+        /**
+         * e.g. Orders · status
+         */
+        detail?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * e.g. records unlinked · context lost between steps
+   */
+  gapLine?: string | null;
+  /**
+   * e.g. NeuronCx unifies them into
+   */
+  resolutionLine?: string | null;
+  /**
+   * Shown in green, e.g. one customer context
+   */
+  resolutionHighlight?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'problemStatement';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PlatformLayersBlock".
+ */
+export interface PlatformLayersBlock {
+  /**
+   * e.g. The platform
+   */
+  eyebrow?: string | null;
+  heading: string;
+  /**
+   * e.g. Scroll to move through the stack — each layer builds on the one before it.
+   */
+  intro?: string | null;
+  /**
+   * Each one takes a screen as the visitor scrolls, so keep the list short.
+   */
+  layers?:
+    | {
+        title: string;
+        description: string;
+        /**
+         * Optional, e.g. Core or Adjacent.
+         */
+        tag?: string | null;
+        icon?: ('message' | 'bolt' | 'layers' | 'gauge' | 'plug') | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'platformLayers';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "JourneyEngineBlock".
+ */
+export interface JourneyEngineBlock {
+  /**
+   * e.g. A live journey
+   */
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  /**
+   * The stages of the journey, defined once. Every industry below uses these same stages in this same order.
+   */
+  stages?:
+    | {
+        /**
+         * e.g. Enquiry
+         */
+        label: string;
+        icon?: ('message' | 'check' | 'calendar' | 'card' | 'document' | 'chat' | 'refresh') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * One tab per industry. Add one detail per stage, in the same order as the stages above — the first detail belongs to the first stage.
+   */
+  industries?:
+    | {
+        /**
+         * Tab label, e.g. Diagnostics
+         */
+        name: string;
+        details?:
+          | {
+              /**
+               * e.g. Recovery
+               */
+              title: string;
+              description: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'journeyEngine';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContextEngineBlock".
+ */
+export interface ContextEngineBlock {
+  /**
+   * e.g. Why NeuronCx
+   */
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  points?:
+    | {
+        /**
+         * e.g. Grounded, not scripted.
+         */
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * e.g. Customer 360
+   */
+  calloutTerm?: string | null;
+  /**
+   * e.g. is the shared memory every agent and channel reads from.
+   */
+  calloutText?: string | null;
+  centreLabel?: string | null;
+  /**
+   * Spaced evenly around the centre automatically. Six to eight looks best; more than that and the labels crowd.
+   */
+  satellites?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contextEngine';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SolutionGridBlock".
+ */
+export interface SolutionGridBlock {
+  /**
+   * e.g. Solutions
+   */
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  /**
+   * Each group is a row of cards under its own small heading, e.g. By journey.
+   */
+  groups?:
+    | {
+        /**
+         * e.g. By journey
+         */
+        title: string;
+        items?:
+          | {
+              label: string;
+              /**
+               * Optional. Leave empty and the card is plain text rather than a link — better than linking to a page that does not exist yet.
+               */
+              href?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'solutionGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TrustPanelBlock".
+ */
+export interface TrustPanelBlock {
+  /**
+   * e.g. Deployment & trust
+   */
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  buttonLabel?: string | null;
+  buttonHref?: string | null;
+  /**
+   * Claims here are read closely during procurement — only state what you can evidence.
+   */
+  cards?:
+    | {
+        title: string;
+        description: string;
+        icon?: ('shield' | 'lock' | 'globe' | 'shieldCheck' | 'server' | 'eye') | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'trustPanel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatBandBlock".
+ */
+export interface StatBandBlock {
+  /**
+   * Use figures you could defend if a prospect asked how you measured them. Three or four works best.
+   */
+  stats?:
+    | {
+        /**
+         * e.g. 4 industries, 1,300+
+         */
+        value: string;
+        /**
+         * What the number means.
+         */
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional. Use it to say how the figures are measured or over what period — not to disclaim them.
+   */
+  note?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'statBand';
 }
 /**
  * Short product capability descriptions. These appear in the sections on the home page and on the platform pages.
@@ -1346,13 +1634,20 @@ export interface PagesSelect<T extends boolean = true> {
         integrations?: T | IntegrationsBlockSelect<T>;
         contactForm?: T | ContactFormBlockSelect<T>;
         howItWorks?: T | HowItWorksBlockSelect<T>;
-        closingCta?: T | ClosingCtaBlockSelect<T>;
+        closingCta?: T | ClosingCTABlockSelect<T>;
         featureThread?: T | FeatureThreadBlockSelect<T>;
         articleGrid?: T | ArticleGridBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
+        problemStatement?: T | ProblemStatementBlockSelect<T>;
+        platformLayers?: T | PlatformLayersBlockSelect<T>;
+        journeyEngine?: T | JourneyEngineBlockSelect<T>;
+        contextEngine?: T | ContextEngineBlockSelect<T>;
+        solutionGrid?: T | SolutionGridBlockSelect<T>;
+        trustPanel?: T | TrustPanelBlockSelect<T>;
+        statBand?: T | StatBandBlockSelect<T>;
       };
   meta?:
     | T
@@ -1588,15 +1883,16 @@ export interface HowItWorksBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ClosingCtaBlock_select".
+ * via the `definition` "ClosingCTABlock_select".
  */
-export interface ClosingCtaBlockSelect<T extends boolean = true> {
+export interface ClosingCTABlockSelect<T extends boolean = true> {
   heading?: T;
   subhead?: T;
   primaryLabel?: T;
   primaryLink?: T;
   secondaryLabel?: T;
   secondaryLink?: T;
+  tagline?: T;
   id?: T;
   blockName?: T;
 }
@@ -1693,6 +1989,174 @@ export interface ArchiveBlockSelect<T extends boolean = true> {
   categories?: T;
   limit?: T;
   selectedDocs?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProblemStatementBlock_select".
+ */
+export interface ProblemStatementBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  intro?: T;
+  problems?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  note?: T;
+  systems?:
+    | T
+    | {
+        name?: T;
+        detail?: T;
+        id?: T;
+      };
+  gapLine?: T;
+  resolutionLine?: T;
+  resolutionHighlight?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PlatformLayersBlock_select".
+ */
+export interface PlatformLayersBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  intro?: T;
+  layers?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        tag?: T;
+        icon?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "JourneyEngineBlock_select".
+ */
+export interface JourneyEngineBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  intro?: T;
+  stages?:
+    | T
+    | {
+        label?: T;
+        icon?: T;
+        id?: T;
+      };
+  industries?:
+    | T
+    | {
+        name?: T;
+        details?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContextEngineBlock_select".
+ */
+export interface ContextEngineBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  intro?: T;
+  points?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  calloutTerm?: T;
+  calloutText?: T;
+  centreLabel?: T;
+  satellites?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SolutionGridBlock_select".
+ */
+export interface SolutionGridBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  intro?: T;
+  groups?:
+    | T
+    | {
+        title?: T;
+        items?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TrustPanelBlock_select".
+ */
+export interface TrustPanelBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  intro?: T;
+  buttonLabel?: T;
+  buttonHref?: T;
+  cards?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatBandBlock_select".
+ */
+export interface StatBandBlockSelect<T extends boolean = true> {
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  note?: T;
   id?: T;
   blockName?: T;
 }

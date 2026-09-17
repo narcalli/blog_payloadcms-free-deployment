@@ -24,6 +24,13 @@ import { ProductSuite } from '../../blocks/ProductSuite/config'
 import { UseCases } from '../../blocks/UseCases/config'
 import { ContactForm } from '../../blocks/ContactForm/config'
 import { PartnerStrip } from '../../blocks/PartnerStrip/config'
+import { ProblemStatement } from '../../blocks/ProblemStatement/config'
+import { PlatformLayers } from '../../blocks/PlatformLayers/config'
+import { JourneyEngine } from '../../blocks/JourneyEngine/config'
+import { ContextEngine } from '../../blocks/ContextEngine/config'
+import { SolutionGrid } from '../../blocks/SolutionGrid/config'
+import { TrustPanel } from '../../blocks/TrustPanel/config'
+import { StatBand } from '../../blocks/StatBand/config'
 
 import {
   MetaDescriptionField,
@@ -102,6 +109,13 @@ export const Pages: CollectionConfig<'pages'> = {
                 Content,
                 MediaBlock,
                 Archive,
+				ProblemStatement,
+				PlatformLayers,
+				JourneyEngine,
+				ContextEngine,
+				SolutionGrid,
+				TrustPanel,
+				StatBand,
               ],
               required: true,
               admin: {
