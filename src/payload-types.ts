@@ -1879,26 +1879,43 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: string;
+  /**
+   * Each item is either a plain link, or a dropdown if you add columns to it. Only add links to pages that exist — a menu full of dead links is worse than a short menu.
+   */
   navItems?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: string | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
+        label: string;
+        /**
+         * Where this goes when clicked, e.g. /integrations. Leave empty if it only opens a dropdown.
+         */
+        href?: string | null;
+        /**
+         * Leave empty for a plain link. Add one to four columns to turn this into a dropdown.
+         */
+        columns?:
+          | {
+              heading?: string | null;
+              links?:
+                | {
+                    label: string;
+                    /**
+                     * For example /omnichannel-cx
+                     */
+                    href: string;
+                    description?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
+  signInLabel?: string | null;
+  signInHref?: string | null;
+  ctaLabel?: string | null;
+  ctaHref?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1986,17 +2003,28 @@ export interface HeaderSelect<T extends boolean = true> {
   navItems?:
     | T
     | {
-        link?:
+        label?: T;
+        href?: T;
+        columns?:
           | T
           | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
+              heading?: T;
+              links?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
             };
         id?: T;
       };
+  signInLabel?: T;
+  signInHref?: T;
+  ctaLabel?: T;
+  ctaHref?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
