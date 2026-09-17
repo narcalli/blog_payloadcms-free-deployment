@@ -27,16 +27,16 @@ export const LogoWallBlock: React.FC<Props> = ({ label, heading, intro, display,
   return (
     <section className="ncx-logowall">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500&family=Source+Serif+4:opsz,wght@8..60,400&display=swap');
-        .ncx-logowall{--ink:#16203A;--soft:#4A5573;--crimson:#E0245E;--violet:#6E5BF2;
-          --rule:#E4E7F0;--mist:#F7F8FC;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+        .ncx-logowall{--ink:#1A1A2E;--soft:#4A5573;--crimson:#C62828;--violet:#6E5BF2;
+          --rule:#E4E7F0;--mist:#F5F5F7;
           background:var(--mist);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
-          padding:56px 0;font-family:"Source Serif 4",Georgia,serif;color:var(--ink);text-align:center}
+          padding:56px 0;font-family:Inter,Arial,sans-serif;color:var(--ink);text-align:center}
         .ncx-logowall .inner{max-width:1120px;margin:0 auto;padding:0 32px}
-        .ncx-logowall .label{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:14px;
+        .ncx-logowall .label{font-family:Poppins,Arial,sans-serif;font-size:14px;
           margin:0 0 12px;background:linear-gradient(90deg,var(--crimson),var(--violet));
           -webkit-background-clip:text;background-clip:text;color:transparent}
-        .ncx-logowall h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:500;
+        .ncx-logowall h2{font-family:Poppins,Arial,sans-serif;font-weight:500;
           font-size:32px;letter-spacing:-.025em;margin:0}
         .ncx-logowall .intro{color:var(--soft);margin:12px auto 0;max-width:60ch;font-size:17px}
         .ncx-logowall .grid{margin-top:40px;display:flex;flex-wrap:nowrap;
@@ -46,7 +46,7 @@ export const LogoWallBlock: React.FC<Props> = ({ label, heading, intro, display,
         .ncx-logowall img{width:auto;max-width:100%;object-fit:contain;display:block;
           filter:grayscale(1);opacity:.7;mix-blend-mode:multiply;transition:opacity .2s,filter .2s}
         .ncx-logowall img:hover{filter:none;opacity:1}
-        .ncx-logowall .wordmark{font-family:"Bricolage Grotesque",system-ui,sans-serif;
+        .ncx-logowall .wordmark{font-family:Poppins,Arial,sans-serif;
           font-size:16px;font-weight:600;letter-spacing:-.01em;color:#8A93AB;
           white-space:nowrap;transition:color .2s}
         .ncx-logowall .cell:hover .wordmark{color:var(--ink)}

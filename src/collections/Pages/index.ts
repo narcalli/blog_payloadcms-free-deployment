@@ -23,6 +23,7 @@ import { Integrations } from '../../blocks/Integrations/config'
 import { ProductSuite } from '../../blocks/ProductSuite/config'
 import { UseCases } from '../../blocks/UseCases/config'
 import { ContactForm } from '../../blocks/ContactForm/config'
+import { PartnerStrip } from '../../blocks/PartnerStrip/config'
 
 import {
   MetaDescriptionField,
@@ -84,6 +85,8 @@ export const Pages: CollectionConfig<'pages'> = {
               name: 'layout',
               type: 'blocks',
               blocks: [
+                ConversationHero,
+                PartnerStrip,
                 StatHero,
                 LogoWall,
                 ProductSuite,
@@ -93,7 +96,6 @@ export const Pages: CollectionConfig<'pages'> = {
                 ContactForm,
                 HowItWorks,
                 ClosingCTA,
-                ConversationHero,
                 FeatureThread,
                 ArticleGrid,
                 CallToAction,

@@ -200,6 +200,8 @@ export interface Page {
     media?: (string | null) | Media;
   };
   layout: (
+    | ConversationHeroBlock
+    | PartnerStripBlock
     | StatHeroBlock
     | LogoWallBlock
     | ProductSuiteBlock
@@ -209,7 +211,6 @@ export interface Page {
     | ContactFormBlock
     | HowItWorksBlock
     | ClosingCtaBlock
-    | ConversationHeroBlock
     | FeatureThreadBlock
     | ArticleGridBlock
     | CallToActionBlock
@@ -444,6 +445,112 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConversationHeroBlock".
+ */
+export interface ConversationHeroBlock {
+  /**
+   * Optional. Short, e.g. "Omnichannel automation and reasoning".
+   */
+  eyebrow?: string | null;
+  /**
+   * Short and direct works best — around six to eight words.
+   */
+  headline: string;
+  /**
+   * One or two sentences explaining what the product does, in plain language.
+   */
+  subhead: string;
+  primaryButtonLabel?: string | null;
+  primaryButtonLink?: string | null;
+  secondaryButtonLabel?: string | null;
+  secondaryButtonLink?: string | null;
+  /**
+   * Short capability labels, e.g. "WhatsApp · Voice · Web". Two or three works best.
+   */
+  chips?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * For example "WhatsApp · Ayurvaid Hospitals · 11:42".
+   */
+  conversationLabel?: string | null;
+  /**
+   * One message per line. Start a line with "them:" for the customer, "us:" for the agent, and "tag:" for a system note at the end.
+   */
+  conversation?: string | null;
+  /**
+   * Optional. What fires behind the scenes, e.g. Booked, Paid, Reminder sent.
+   */
+  workflowSteps?:
+    | {
+        label: string;
+        icon?: ('calendar' | 'card' | 'document' | 'message' | 'check') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional. Real, defensible figures only — these sit directly under the hero.
+   */
+  stats?:
+    | {
+        /**
+         * e.g. 40%, 2.5x, 14+
+         */
+        value: string;
+        /**
+         * What the number means, in three or four words.
+         */
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'conversationHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PartnerStripBlock".
+ */
+export interface PartnerStripBlock {
+  /**
+   * For example: Powering conversational commerce across industries.
+   */
+  intro?: string | null;
+  /**
+   * Systems you connect to, set as text rather than logos — DocPulse, LeadSquared, WhatsApp Business API. This is not the client logo wall.
+   */
+  partners?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Only claim a standard you actually meet — these are read closely by hospital IT.
+   */
+  badges?:
+    | {
+        /**
+         * e.g. ABDM
+         */
+        name: string;
+        /**
+         * e.g. ready
+         */
+        suffix?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'partnerStrip';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -713,44 +820,6 @@ export interface ClosingCtaBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'closingCta';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ConversationHeroBlock".
- */
-export interface ConversationHeroBlock {
-  /**
-   * The main statement at the top of the page. Short and direct works best — around six to eight words.
-   */
-  headline: string;
-  /**
-   * One or two sentences explaining what the product does, in plain language.
-   */
-  subhead: string;
-  /**
-   * Text on the dark button. Start with a verb.
-   */
-  primaryButtonLabel?: string | null;
-  /**
-   * Where the dark button goes. Use /page-name for this site, or a full address for elsewhere.
-   */
-  primaryButtonLink?: string | null;
-  /**
-   * Text on the outlined button. Leave empty to hide it.
-   */
-  secondaryButtonLabel?: string | null;
-  secondaryButtonLink?: string | null;
-  /**
-   * The small line above the conversation. Name the channel and the customer, e.g. WhatsApp · Ayurvaid Hospitals · 11:42
-   */
-  conversationLabel?: string | null;
-  /**
-   * One message per line. Start a line with "them:" for the customer, "us:" for the agent, and "tag:" for a small label under the last message. A line with no prefix continues the message above it.
-   */
-  conversation: string;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'conversationHero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1267,6 +1336,8 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        conversationHero?: T | ConversationHeroBlockSelect<T>;
+        partnerStrip?: T | PartnerStripBlockSelect<T>;
         statHero?: T | StatHeroBlockSelect<T>;
         logoWall?: T | LogoWallBlockSelect<T>;
         productSuite?: T | ProductSuiteBlockSelect<T>;
@@ -1276,7 +1347,6 @@ export interface PagesSelect<T extends boolean = true> {
         contactForm?: T | ContactFormBlockSelect<T>;
         howItWorks?: T | HowItWorksBlockSelect<T>;
         closingCta?: T | ClosingCtaBlockSelect<T>;
-        conversationHero?: T | ConversationHeroBlockSelect<T>;
         featureThread?: T | FeatureThreadBlockSelect<T>;
         articleGrid?: T | ArticleGridBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
@@ -1297,6 +1367,65 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ConversationHeroBlock_select".
+ */
+export interface ConversationHeroBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  headline?: T;
+  subhead?: T;
+  primaryButtonLabel?: T;
+  primaryButtonLink?: T;
+  secondaryButtonLabel?: T;
+  secondaryButtonLink?: T;
+  chips?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  conversationLabel?: T;
+  conversation?: T;
+  workflowSteps?:
+    | T
+    | {
+        label?: T;
+        icon?: T;
+        id?: T;
+      };
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PartnerStripBlock_select".
+ */
+export interface PartnerStripBlockSelect<T extends boolean = true> {
+  intro?: T;
+  partners?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
+  badges?:
+    | T
+    | {
+        name?: T;
+        suffix?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1468,22 +1597,6 @@ export interface ClosingCtaBlockSelect<T extends boolean = true> {
   primaryLink?: T;
   secondaryLabel?: T;
   secondaryLink?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ConversationHeroBlock_select".
- */
-export interface ConversationHeroBlockSelect<T extends boolean = true> {
-  headline?: T;
-  subhead?: T;
-  primaryButtonLabel?: T;
-  primaryButtonLink?: T;
-  secondaryButtonLabel?: T;
-  secondaryButtonLink?: T;
-  conversationLabel?: T;
-  conversation?: T;
   id?: T;
   blockName?: T;
 }

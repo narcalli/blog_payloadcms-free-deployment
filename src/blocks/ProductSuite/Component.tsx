@@ -23,15 +23,15 @@ export const ProductSuiteBlock: React.FC<Props> = ({ label, heading, intro, prod
   return (
     <section className="ncx-suite">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500&family=Source+Serif+4:opsz,wght@8..60,400&display=swap');
-        .ncx-suite{--ink:#16203A;--soft:#4A5573;--crimson:#E0245E;--violet:#6E5BF2;
-          --cyan:#18B6AE;--rule:#E4E7F0;--mist:#F7F8FC;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+        .ncx-suite{--ink:#1A1A2E;--soft:#4A5573;--crimson:#C62828;--violet:#6E5BF2;
+          --cyan:#18B6AE;--rule:#E4E7F0;--mist:#F5F5F7;
           max-width:1120px;margin:0 auto;padding:56px 32px;
-          font-family:"Source Serif 4",Georgia,serif;color:var(--ink)}
-        .ncx-suite .label{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:14px;
+          font-family:Inter,Arial,sans-serif;color:var(--ink)}
+        .ncx-suite .label{font-family:Poppins,Arial,sans-serif;font-size:14px;
           margin:0 0 12px;background:linear-gradient(90deg,var(--crimson),var(--violet));
           -webkit-background-clip:text;background-clip:text;color:transparent}
-        .ncx-suite h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:500;
+        .ncx-suite h2{font-family:Poppins,Arial,sans-serif;font-weight:500;
           font-size:clamp(28px,3.4vw,40px);letter-spacing:-.03em;margin:0;max-width:22ch}
         .ncx-suite .intro{color:var(--soft);margin:14px 0 0;max-width:62ch;font-size:18px;line-height:1.6}
         .ncx-suite .grid{margin-top:44px;display:grid;
@@ -39,15 +39,15 @@ export const ProductSuiteBlock: React.FC<Props> = ({ label, heading, intro, prod
         .ncx-suite .card{border-radius:16px;padding:1px;
           background:linear-gradient(160deg,rgba(110,91,242,.35),rgba(24,182,174,.18),var(--rule))}
         .ncx-suite .in{background:#fff;border-radius:15px;padding:26px 24px;height:100%}
-        .ncx-suite h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:500;
+        .ncx-suite h3{font-family:Poppins,Arial,sans-serif;font-weight:500;
           font-size:21px;letter-spacing:-.02em;margin:0}
         .ncx-suite .summary{color:var(--soft);font-size:16px;line-height:1.6;margin:12px 0 0}
         .ncx-suite ul{margin:18px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
-        .ncx-suite li{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:12.5px;
+        .ncx-suite li{font-family:Poppins,Arial,sans-serif;font-size:12.5px;
           color:var(--soft);border:1px solid var(--rule);background:var(--mist);
           padding:5px 11px;border-radius:999px}
         .ncx-suite .more{display:inline-block;margin-top:20px;
-          font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:14px;
+          font-family:Poppins,Arial,sans-serif;font-size:14px;
           color:var(--crimson);text-decoration:none;border-bottom:1px solid transparent}
         .ncx-suite .more:hover{border-bottom-color:var(--crimson)}
         .ncx-suite .more:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
